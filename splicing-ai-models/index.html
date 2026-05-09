@@ -97,6 +97,14 @@ tr:hover td{background:var(--soft)}
 .bar-track{background:#f0f0f0;border-radius:4px;height:14px;position:relative}
 .bar-fill{height:100%;border-radius:4px;background:var(--accent);transition:width .4s}
 .bar-val{color:var(--muted);font-size:11px;font-family:ui-monospace,monospace}
+
+/* ── REFS ── */
+.refs{margin-top:28px;padding-top:20px;border-top:2px solid var(--line)}
+.refs-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:12px}
+.refs-list{list-style:decimal;padding-left:20px;margin:0;display:flex;flex-direction:column;gap:6px}
+.refs-list li{font-size:11.5px;color:#4a5568;line-height:1.6}
+.refs-list a{color:var(--accent);text-decoration:none}
+.refs-list a:hover{text-decoration:underline}
 </style>
 </head>
 <body>
@@ -440,6 +448,20 @@ tr:hover td{background:var(--soft)}
     </div>
   </div>
 </div>
+
+<section class="refs">
+  <div class="refs-title">근거 논문</div>
+  <ol class="refs-list">
+    <li>Yeo G & Burge CB. "Maximum entropy modeling of short sequence motifs with applications to RNA splicing signals." <em>J Comput Biol.</em> 2004. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/15285897/" target="_blank" rel="noopener">15285897</a></li>
+    <li>Jaganathan K et al. "Predicting Splicing from Primary Sequence with Deep Learning." <em>Cell.</em> 2019. doi:10.1016/j.cell.2018.12.015. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/30661751/" target="_blank" rel="noopener">30661751</a></li>
+    <li>Zeng T & Li YI. "Predicting RNA splicing from DNA sequence using Pangolin." <em>Genome Biol.</em> 2022. doi:10.1186/s13059-022-02664-4. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/35449021/" target="_blank" rel="noopener">35449021</a></li>
+    <li>Wagner N et al. "Aberrant splicing prediction across human tissues." <em>Nat Genet.</em> 2023. doi:10.1038/s41588-023-01373-3. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/37142848/" target="_blank" rel="noopener">37142848</a></li>
+    <li>Smith et al. "Benchmarking splice variant prediction algorithms using massively parallel splicing assays." 2023. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/37205456/" target="_blank" rel="noopener">37205456</a></li>
+    <li>You N et al. "SpliceTransformer predicts tissue-specific splicing linked to human diseases." <em>Nat Commun.</em> 2024. doi:10.1038/s41467-024-53088-6. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/39443442/" target="_blank" rel="noopener">39443442</a></li>
+    <li>Jónsson BA et al. "Transformers significantly improve splice site prediction." <em>Commun Biol.</em> 2024. doi:10.1038/s42003-024-07298-9. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/39633146/" target="_blank" rel="noopener">39633146</a></li>
+    <li>Walker LC et al. "Using the ACMG/AMP framework to capture evidence related to predicted and observed impact on splicing." <em>Am J Hum Genet.</em> 2023. doi:10.1016/j.ajhg.2023.06.002. PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/37352859/" target="_blank" rel="noopener">37352859</a></li>
+  </ol>
+</section>
 
 </div>
 
