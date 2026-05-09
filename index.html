@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Homangla — 스플라이싱 학습 가이드</title>
+<meta name="description" content="스플라이싱 메커니즘, Isoform 다양성, 변이 분류, 그리고 AI 예측 모델까지. 스플라이싱 생물학을 한 페이지씩 익힙니다.">
+<style>
+:root{
+  --bg: oklch(0.985 0.005 90);
+  --surface: oklch(1 0 0);
+  --surface-glass: oklch(1 0 0 / 0.6);
+  --surface-glass-strong: oklch(1 0 0 / 0.85);
+  --ink: oklch(0.18 0.02 250);
+  --ink-soft: oklch(0.36 0.02 250);
+  --muted: oklch(0.55 0.015 250);
+  --line: oklch(0.91 0.005 250);
+  --line-soft: oklch(0.94 0.004 250);
+
+  /* splicing track — amber-orange (RNA themed) */
+  --t-splice: oklch(0.52 0.16 50);
+  --t-splice-glow: oklch(0.80 0.14 50);
+  --t-splice-tint: oklch(0.97 0.025 50);
+
+  --shadow-1: 0 1px 2px oklch(0.2 0.02 250 / 0.04), 0 2px 6px oklch(0.2 0.02 250 / 0.04);
+  --shadow-card: 0 1px 2px oklch(0.2 0.02 250 / 0.03),
+                 0 4px 12px oklch(0.2 0.02 250 / 0.04),
+                 0 16px 40px oklch(0.2 0.02 250 / 0.04);
+  --shadow-hover: 0 2px 4px oklch(0.2 0.02 250 / 0.05),
+                  0 12px 28px oklch(0.2 0.02 250 / 0.07),
+                  0 32px 72px oklch(0.2 0.02 250 / 0.09);
+
+  --r-card: 24px;
+  --r-inner: 16px;
+  --r-pill: 999px;
+  --r-btn: 12px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.4, 1);
+  --f-display: "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", "Noto Sans KR",
+               -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --f-body: "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", "Noto Sans KR",
+            -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --f-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--f-body);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  text-wrap: pretty;
+  position: relative;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: -10%;
+  background:
+    radial-gradient(60% 50% at 15% 10%, oklch(0.80 0.14 50 / 0.18), transparent 60%),
+    radial-gradient(45% 40% at 88% 20%, oklch(0.82 0.10 80 / 0.12), transparent 65%),
+    radial-gradient(55% 50% at 65% 90%, oklch(0.80 0.14 50 / 0.10), transparent 65%),
+    radial-gradient(40% 40% at 30% 65%, oklch(0.85 0.06 250 / 0.06), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  animation: drift 28s ease-in-out infinite alternate;
+}
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(oklch(0.2 0.02 250 / 0.012) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+  z-index: 0;
+  mix-blend-mode: multiply;
+}
+@keyframes drift {
+  0%   { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
+  50%  { transform: translate3d(2%, -1.5%, 0) scale(1.04) rotate(0.4deg); }
+  100% { transform: translate3d(-1.5%, 2%, 0) scale(1.03) rotate(-0.3deg); }
+}
+@media (prefers-reduced-motion: reduce) { body::before { animation: none; } }
+
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 56px 28px 80px;
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  margin-bottom: 72px;
+  min-height: 340px;
+  padding-right: min(32vw, 360px);
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--f-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.brand-mark {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: conic-gradient(from 40deg at 50% 50%,
+    var(--t-splice-glow), oklch(0.80 0.10 80) 40%,
+    var(--t-splice-glow) 75%, oklch(0.80 0.10 80) 100%);
+  box-shadow: 0 1px 2px oklch(0.2 0.02 250 / 0.1),
+    inset 0 0 0 1.5px oklch(1 0 0 / 0.6),
+    inset 0 -3px 6px oklch(0.2 0.02 250 / 0.1);
+  position: relative;
+}
+.brand-mark::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  background: var(--surface);
+}
+.brand strong { color: var(--ink); font-weight: 700; }
+
+.hero h1 {
+  font-family: var(--f-display);
+  font-size: clamp(36px, 5.6vw, 64px);
+  font-weight: 850;
+  letter-spacing: -0.022em;
+  line-height: 1.08;
+  margin: 0 0 22px;
+}
+.hero h1 .accent {
+  background: linear-gradient(120deg, var(--t-splice) 0%, oklch(0.65 0.18 70) 60%, oklch(0.60 0.14 40) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.hero .lede {
+  font-size: 17px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  max-width: 580px;
+  margin-bottom: 18px;
+}
+.autodidact-note {
+  max-width: 560px;
+  padding-left: 16px;
+  border-left: 2px solid oklch(from var(--t-splice) l c h / 0.45);
+  font-size: 14.5px;
+  line-height: 1.75;
+  color: var(--muted);
+}
+.autodidact-note strong { color: var(--ink); font-weight: 800; }
+
+@media (max-width: 900px) {
+  .hero { min-height: 0; padding-right: 0; }
+}
+
+/* ── TRACKS ── */
+.tracks { display: grid; gap: 64px; }
+
+.track {
+  position: relative;
+  --tc: var(--t-splice);
+  --tc-glow: var(--t-splice-glow);
+  --tc-tint: var(--t-splice-tint);
+}
+
+.track-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 8px;
+  padding-bottom: 16px;
+  position: relative;
+}
+.track-head::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, var(--tc) 0%, var(--line) 25%, var(--line) 100%);
+  opacity: 0.5;
+}
+.track-title-group {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.track-num {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--f-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--tc);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.track-num::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--tc);
+  box-shadow: 0 0 0 4px oklch(from var(--tc) calc(l + 0.05) c h / 0.18);
+}
+.track-title {
+  font-family: var(--f-display);
+  font-size: clamp(24px, 2.6vw, 32px);
+  font-weight: 800;
+  letter-spacing: -0.018em;
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.15;
+}
+.track-blurb {
+  font-size: 15px;
+  color: var(--ink-soft);
+  max-width: 680px;
+  line-height: 1.7;
+  margin: 16px 0 28px;
+}
+
+/* ── CARDS ── */
+.cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+@media (min-width: 720px) {
+  .cards.split { grid-template-columns: repeat(2, 1fr); }
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 30px 28px 26px;
+  background: var(--surface-glass-strong);
+  backdrop-filter: blur(16px) saturate(1.3);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  text-decoration: none;
+  color: var(--ink);
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform 0.5s var(--ease), border-color 0.5s var(--ease), box-shadow 0.5s var(--ease);
+  box-shadow: var(--shadow-1);
+}
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(120% 90% at 100% 0%, oklch(from var(--tc-glow) l c h / 0.32), transparent 65%),
+    linear-gradient(135deg, transparent 30%, var(--tc-tint) 100%);
+  opacity: 0.5;
+  transition: opacity 0.5s var(--ease);
+}
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(180deg, oklch(1 0 0 / 0.4), transparent 30%);
+}
+.card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); border-color: oklch(from var(--tc) l c h / 0.4); }
+.card:hover::before { opacity: 0.9; }
+.card:focus-visible { outline: 2px solid var(--tc); outline-offset: 4px; }
+
+.card-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tc);
+  font-weight: 700;
+  align-self: flex-start;
+}
+.card-tag::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--tc);
+  box-shadow: 0 0 0 3px oklch(from var(--tc) calc(l + 0.05) c h / 0.18);
+}
+.card-title {
+  font-family: var(--f-display);
+  font-size: clamp(19px, 1.6vw, 22px);
+  font-weight: 800;
+  letter-spacing: -0.014em;
+  line-height: 1.28;
+  color: var(--ink);
+  margin: 4px 0 2px;
+}
+.card-desc {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  flex-grow: 1;
+}
+.card-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding-top: 14px;
+  border-top: 1px dashed oklch(from var(--tc) l c h / 0.25);
+}
+.card-cta-text { font-size: 13.5px; color: var(--tc); font-weight: 600; }
+.card-cta-mark {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--tc);
+  color: oklch(1 0 0);
+  display: grid;
+  place-items: center;
+  transition: transform 0.4s var(--ease-spring), background 0.3s var(--ease);
+  box-shadow: 0 1px 2px oklch(0.2 0.02 250 / 0.1), 0 0 0 0 oklch(from var(--tc) l c h / 0);
+}
+.card-cta-mark svg { width: 14px; height: 14px; }
+.card:hover .card-cta-mark {
+  transform: translateX(5px) scale(1.05);
+  box-shadow: 0 2px 6px oklch(0.2 0.02 250 / 0.12), 0 0 0 6px oklch(from var(--tc) l c h / 0.12);
+}
+
+/* ── FOOT ── */
+.foot {
+  margin-top: 72px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.75;
+}
+.foot a { color: var(--muted); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+.foot a:hover { color: var(--ink); }
+.foot strong { color: var(--ink-soft); font-weight: 700; }
+.foot-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.foot-row .right { font-family: var(--f-mono); font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- HERO -->
+<header class="hero">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span><strong>homangla</strong> · splicing biology learning guide</span>
+  </div>
+  <h1>스플라이싱을 한 페이지로<br><span class="accent">스스로 익힌다</span></h1>
+  <p class="lede">
+    pre-mRNA 스플라이싱의 분자 메커니즘부터 isoform 다양성, 임상적 변이 해석, 딥러닝 예측 모델까지. 스플라이싱 생물학의 핵심 개념을 인터랙티브 페이지로 정리합니다.
+  </p>
+  <p class="autodidact-note">
+    <strong>Splicing</strong>은 pre-mRNA의 인트론이 제거되고 엑손이 이어지는 과정입니다. 유전체 변이의 상당 비율이 스플라이싱에 영향을 주며, 이를 정확히 해석하는 것이 희귀질환 진단과 치료의 핵심입니다.
+  </p>
+</header>
+
+<!-- TRACKS -->
+<main class="tracks">
+
+  <section class="track" aria-labelledby="t01">
+    <header class="track-head">
+      <div class="track-title-group">
+        <span class="track-num">track 01</span>
+        <h2 class="track-title" id="t01">스플라이싱 생물학</h2>
+      </div>
+    </header>
+    <p class="track-blurb">
+      스플라이소좀이 인트론을 인식하고 잘라내는 분자 메커니즘에서 출발해, alternative splicing이 만드는 isoform 다양성, 유전체 변이를 기능적으로 분류하는 기준, 그리고 딥러닝이 스플라이싱 변화를 예측하는 방법까지. 네 카드로 스플라이싱의 전체 흐름을 따라갑니다.
+    </p>
+    <div class="cards split">
+
+      <a class="card" href="splicing-mechanism/index.html">
+        <span class="card-tag">mechanism · spliceosome</span>
+        <h3 class="card-title">스플라이싱 메커니즘</h3>
+        <p class="card-desc">
+          스플라이소좀(spliceosome)이 5' 스플라이스 부위, 분지점(branch point), 폴리피리미딘 트랙, 3' 스플라이스 부위를 어떻게 인식하는지 알아봅니다. U1·U2·U4·U5·U6 snRNP가 조립되어 두 번의 트랜스에스테르화 반응(transesterification)을 통해 인트론을 제거하고 엑손을 연결하는 과정, 그리고 Major(U2-type)와 Minor(U12-type) 스플라이소좀의 차이를 인터랙티브로 살펴봅니다.
+        </p>
+        <div class="card-cta">
+          <span class="card-cta-text">페이지로 들어가기</span>
+          <span class="card-cta-mark" aria-hidden="true">
+            <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 7H12M12 7L7.5 2.5M12 7L7.5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </div>
+      </a>
+
+      <a class="card" href="splicing-isoform/index.html">
+        <span class="card-tag">alternative splicing · isoform</span>
+        <h3 class="card-title">스플라이싱과 Isoform</h3>
+        <p class="card-desc">
+          Exon skipping, alternative 5'/3' splice site, intron retention, mutually exclusive exons — 다섯 가지 alternative splicing 유형이 어떻게 단백질 다양성을 만드는지 도식으로 비교합니다. 신경세포 특이적 microexon, 조직별 isoform 전환, DSCAM·NRXN1 등 극단적 다양성 사례, 그리고 isoform이 단백질 도메인 구성에 미치는 영향을 다룹니다.
+        </p>
+        <div class="card-cta">
+          <span class="card-cta-text">페이지로 들어가기</span>
+          <span class="card-cta-mark" aria-hidden="true">
+            <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 7H12M12 7L7.5 2.5M12 7L7.5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </div>
+      </a>
+
+      <a class="card" href="splicing-variant-classification/index.html">
+        <span class="card-tag">variant · ACMG · SpliceAI</span>
+        <h3 class="card-title">스플라이싱 변이 분류</h3>
+        <p class="card-desc">
+          canonical splice site(±1,2), near-splice site(±3–8), 딥 인트로닉 변이, 엑손 내 ESE/ESS 교란까지 위치 기반 분류를 먼저 잡습니다. 이어서 SpliceAI 점수 기준(0.2/0.5/0.8), ACMG/ClinGen 스플라이싱 변이 해석 기준(PVS1 적용, BP7, PP3), 그리고 각 변이 유형이 일으키는 RNA 결과(exon skipping, intron retention, cryptic site 활성화, NMD)를 연결해서 정리합니다.
+        </p>
+        <div class="card-cta">
+          <span class="card-cta-text">페이지로 들어가기</span>
+          <span class="card-cta-mark" aria-hidden="true">
+            <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 7H12M12 7L7.5 2.5M12 7L7.5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </div>
+      </a>
+
+      <a class="card" href="splicing-ai-models/index.html">
+        <span class="card-tag">deep learning · SpliceAI · Pangolin</span>
+        <h3 class="card-title">스플라이싱 변이 예측 AI 모델</h3>
+        <p class="card-desc">
+          MaxEntScan(규칙 기반 기준선)에서 SpliceAI(deep CNN, 2019), Pangolin(다조직 SpliceAI 확장), MMSplice(모듈형 예측), AbSplice(조직 특이적 이상 스플라이싱), CADD-Splice(앙상블), SpliceVault(관찰 기반)까지. 각 모델의 입력·출력·장단점을 비교하고, 임상 해석에서 어떤 모델을 어떤 상황에 쓰는지 가이드합니다.
+        </p>
+        <div class="card-cta">
+          <span class="card-cta-text">페이지로 들어가기</span>
+          <span class="card-cta-mark" aria-hidden="true">
+            <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 7H12M12 7L7.5 2.5M12 7L7.5 11.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="foot">
+  <div class="foot-row">
+    <div>
+      <strong>homangla</strong> · 스플라이싱 생물학 학습 가이드<br>
+      공개 문헌과 개념 정리 기반 · 필요하면 원문 검색으로 연결
+    </div>
+    <div class="right">
+      <a href="https://github.com/joonan-lab/autodidact" target="_blank" rel="noopener">inspired by joonan-lab/autodidact</a>
+    </div>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
