@@ -216,18 +216,27 @@ tr:hover td{background:var(--soft)}
         <strong>중요:</strong> 인간 게놈에서 99% 이상의 인트론이 GU-AG 규칙을 따릅니다(U2-type). 약 0.5%의 인트론은 AT-AC 또는 다른 서열을 가지며 U12-type (minor) 스플라이소좀에 의해 처리됩니다.
       </div>
 
-      <div class="grid-3" style="margin-top:16px">
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-head"><div class="panel-title">조절 서열 요소 (Splicing Regulatory Elements)</div></div>
+    <div class="panel-body">
+      <p style="font-size:13.5px;color:#3a4a5e;margin-bottom:16px;line-height:1.7">
+        스플라이소좀의 4가지 핵심 신호만으로는 스플라이싱 결과를 완전히 예측할 수 없습니다. <strong>RNA 결합 단백질(RBP)</strong>이 결합하는 보조 서열 요소가 스플라이싱 효율과 대안 스플라이싱을 미세 조정합니다.
+      </p>
+      <div class="grid-3">
         <div class="card-sm">
           <h4>ESE (Exonic Splicing Enhancer)</h4>
-          <p>SR 단백질이 결합하여 근처 스플라이스 부위의 사용을 촉진. 엑손 포함을 강화.</p>
+          <p>엑손 내 SR 단백질 결합 서열. 인접 스플라이스 부위의 사용을 촉진하여 엑손 포함을 강화. 변이로 인한 ESE 파괴 → 엑손 스킵.</p>
         </div>
         <div class="card-sm">
           <h4>ESS (Exonic Splicing Silencer)</h4>
-          <p>hnRNP 단백질이 결합하여 스플라이싱을 억제. 변이가 ESS를 만들거나 ESE를 파괴하면 엑손 스킵 유발.</p>
+          <p>엑손 내 hnRNP 결합 서열. 스플라이싱을 억제하여 엑손 제외 유도. 변이가 새 ESS를 생성하거나 ESE를 파괴하면 엑손 스킵 유발.</p>
         </div>
         <div class="card-sm">
-          <h4>ISE/ISS (Intronic)</h4>
-          <p>인트론 내 enhancer/silencer. 딥 인트로닉 변이가 ISS를 파괴하거나 새 ISE를 만들면 cryptic exon 활성화.</p>
+          <h4>ISE / ISS (Intronic)</h4>
+          <p>인트론 내 enhancer/silencer. 딥 인트로닉 변이가 ISS를 파괴하거나 새 ISE를 만들면 cryptic exon 활성화. SpliceAI 등 AI 모델의 주요 예측 타깃.</p>
         </div>
       </div>
     </div>
