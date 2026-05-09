@@ -133,14 +133,14 @@ tr:hover td{background:var(--soft)}
   <div class="breadcrumb"><a href="../index.html">← homangla</a> / 스플라이싱 메커니즘</div>
   <div class="eyebrow">mechanism · spliceosome</div>
   <h1>스플라이싱 메커니즘</h1>
-  <p class="dek">pre-mRNA에서 인트론이 제거되고 엑손이 연결되는 과정을 분자 수준으로 이해합니다. 스플라이소좀의 조립 단계, 두 번의 화학 반응, 그리고 Major·Minor 스플라이소좀의 차이를 살펴봅니다.</p>
+  <p class="dek">pre-mRNA에서 인트론이 제거되고 엑손이 연결되는 과정을 분자 수준으로 이해합니다. 스플라이소좀의 조립 단계, 두 번의 트랜스에스테르화 반응, 그리고 Major·Minor 스플라이소좀의 차이를 살펴봅니다.</p>
 </div>
 
 <!-- TABS -->
 <div class="tabs">
   <button class="tab-btn active" onclick="showTab('splice-sites')">스플라이스 부위 인식</button>
   <button class="tab-btn" onclick="showTab('assembly')">스플라이소좀 조립</button>
-  <button class="tab-btn" onclick="showTab('reaction')">두 단계 반응</button>
+  <button class="tab-btn" onclick="showTab('reaction')">트랜스에스테르화 반응</button>
   <button class="tab-btn" onclick="showTab('major-minor')">Major vs Minor</button>
   <button class="tab-btn" onclick="showTab('cotranscriptional')">공전사 스플라이싱</button>
 </div>
@@ -261,7 +261,7 @@ tr:hover td{background:var(--soft)}
              alt="Spliceosome assembly pathway: E, A, B, Bact, C complexes"
              style="max-width:100%;border-radius:8px;border:1px solid var(--line)">
         <figcaption style="margin-top:10px;font-size:11.5px;color:var(--muted);line-height:1.6">
-          스플라이소좀 조립 경로. U1 snRNP(E complex)→ U2 snRNP(A complex) → U4/U5/U6 tri-snRNP(B complex) → 활성화(B<sup>act</sup>) → 1단계 반응(C complex) 순서로 진행된다.<br>
+          스플라이소좀 조립 경로. U1 snRNP(E complex)→ U2 snRNP(A complex) → U4/U5/U6 tri-snRNP(B complex) → 활성화(B<sup>act</sup>) → Step 1(C complex) 순서로 진행된다.<br>
           <span style="font-size:10.5px">
             Fig. 2 from: Seo H &amp; Bhatt DL (2021). Spliceosomal snRNA Epitranscriptomics.
             <em>Frontiers in Genetics</em> 12:652129.
@@ -276,7 +276,7 @@ tr:hover td{background:var(--soft)}
 <!-- TAB 3: REACTION -->
 <div class="tab-panel" id="tab-reaction">
   <div class="panel">
-    <div class="panel-head"><div class="panel-title">두 단계 트랜스에스테르화 반응</div></div>
+    <div class="panel-head"><div class="panel-title">스플라이싱 트랜스에스테르화 반응</div></div>
     <div class="panel-body">
       <p style="font-size:14px;color:#3a4a5e;margin-bottom:18px;line-height:1.7">
         스플라이싱은 두 번의 <strong>SN2 트랜스에스테르화(transesterification)</strong> 반응으로 이루어집니다. 에너지 소비 없이(ATP 불필요) 인산이에스테르 결합의 위치만 바뀝니다.
@@ -285,7 +285,7 @@ tr:hover td{background:var(--soft)}
       <div class="grid-2">
         <div>
           <div class="panel" style="margin-bottom:0">
-            <div class="panel-head"><div class="panel-title" style="color:#e65100">1단계 반응</div></div>
+            <div class="panel-head"><div class="panel-title" style="color:#e65100">Step 1: 분지화 반응 (Branching)</div></div>
             <div class="panel-body">
               <p style="font-size:13px;color:#3a4a5e;line-height:1.7;margin-bottom:12px">
                 분지점(BP) 아데노신의 <strong>2'-OH</strong>가 친핵체로 작용하여 5' 스플라이스 부위의 인산이에스테르 결합을 공격합니다.
@@ -307,7 +307,7 @@ tr:hover td{background:var(--soft)}
         </div>
         <div>
           <div class="panel" style="margin-bottom:0">
-            <div class="panel-head"><div class="panel-title" style="color:#2e7d32">2단계 반응</div></div>
+            <div class="panel-head"><div class="panel-title" style="color:#2e7d32">Step 2: 엑손 연결 반응 (Exon Ligation)</div></div>
             <div class="panel-body">
               <p style="font-size:13px;color:#3a4a5e;line-height:1.7;margin-bottom:12px">
                 유리된 5' 엑손의 <strong>3'-OH</strong>가 친핵체로 작용하여 3' 스플라이스 부위를 공격합니다.
@@ -330,8 +330,27 @@ tr:hover td{background:var(--soft)}
       </div>
 
       <div class="info-box" style="margin-top:16px">
-        <strong>핵심:</strong> 두 반응 모두 에너지(ATP)를 소비하지 않습니다. 인산이에스테르 결합의 수는 변하지 않고, 위치만 바뀝니다. ATP는 스플라이소좀의 재배열과 RNA 언와인딩(DEAD-box helicase: Prp5, Prp28, Brr2, Prp2, Prp16, Prp22, Prp43)에 필요합니다.
+        <strong>핵심:</strong> 두 트랜스에스테르화 반응 모두 에너지(ATP)를 소비하지 않습니다. 인산이에스테르 결합의 수는 변하지 않고, 위치만 바뀝니다. ATP는 스플라이소좀의 재배열과 RNA 언와인딩(DEAD-box helicase: Prp5, Prp28, Brr2, Prp2, Prp16, Prp22, Prp43)에 필요합니다.
       </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-head"><div class="panel-title">트랜스에스테르화 반응 경로 — 전체 개요</div></div>
+    <div class="panel-body">
+      <figure style="margin:0;text-align:center">
+        <img src="https://www.frontiersin.org/files/Articles/652129/xml-images/fgene-12-652129-g001.webp"
+             alt="Pre-mRNA splicing: two-step transesterification pathway showing lariat formation and exon ligation"
+             style="max-width:100%;border-radius:8px;border:1px solid var(--line)">
+        <figcaption style="margin-top:10px;font-size:11.5px;color:var(--muted);line-height:1.6">
+          pre-mRNA 스플라이싱 트랜스에스테르화 반응 경로. Step 1: 분지점 아데노신의 2'-OH가 5' SS 인산이에스테르 결합을 공격 → Lariat-3' exon 중간체 형성. Step 2: 유리된 5' 엑손의 3'-OH가 3' SS를 공격 → 성숙 mRNA 생성 및 Lariat 방출.<br>
+          <span style="font-size:10.5px">
+            Fig. 1 from: Seo H &amp; Bhatt DL (2021). Spliceosomal snRNA Epitranscriptomics.
+            <em>Frontiers in Genetics</em> 12:652129.
+            <a href="https://doi.org/10.3389/fgene.2021.652129" target="_blank" rel="noopener">doi:10.3389/fgene.2021.652129</a> — CC BY 4.0
+          </span>
+        </figcaption>
+      </figure>
     </div>
   </div>
 </div>
@@ -530,7 +549,7 @@ const assemblyData = [
       "U6 snRNA → 5'SS와 새로운 base pairing 형성",
       "U4 snRNP 방출, U1 snRNP 방출",
       "U6 snRNA의 ACAGAGA 모티프 = 촉매 중심",
-      "아직 1단계 반응은 일어나지 않음"
+      "아직 Step 1(분지화 반응)은 일어나지 않음"
     ]
   },
   {
@@ -539,7 +558,7 @@ const assemblyData = [
     sub: "Step 1 completed",
     desc: "첫 번째 트랜스에스테르화 반응이 완료됩니다. Lariat 형성.",
     details: [
-      "Prp2 helicase → 스플라이소좀 재배열로 1단계 활성화",
+      "Prp2 helicase → 스플라이소좀 재배열로 Step 1 활성화",
       "BP-A 2'-OH → 5'SS 인산이에스테르 결합 공격",
       "Lariat-3' exon 중간체 형성",
       "5' 엑손의 3'-OH 유리",
@@ -550,19 +569,19 @@ const assemblyData = [
     id: "C*",
     label: "C* 복합체",
     sub: "Step 2 ready",
-    desc: "두 번째 반응을 위한 재배열이 일어납니다.",
+    desc: "Step 2(엑손 연결)를 위한 재배열이 일어납니다.",
     details: [
       "Prp16 helicase → C 복합체를 C*로 재배열",
       "5' 엑손의 3'-OH가 촉매 중심에 정렬",
       "Lariat-3'SS 결합이 촉매 위치에 놓임",
-      "이 재배열은 2단계 반응의 정확성을 보장"
+      "이 재배열은 Step 2의 정확성을 보장"
     ]
   },
   {
     id: "P",
     label: "P 복합체",
     sub: "Post-catalytic",
-    desc: "두 번째 반응 완료. 엑손이 연결되고 Lariat가 방출됩니다.",
+    desc: "Step 2 완료. 엑손이 연결되고 Lariat가 방출됩니다.",
     details: [
       "5' 엑손 3'-OH → 3'SS 인산이에스테르 결합 공격",
       "엑손 1·2 연결, Lariat 방출",
