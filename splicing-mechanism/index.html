@@ -105,6 +105,18 @@ tr:hover td{background:var(--soft)}
 .info-box{background:var(--soft2);border:1px solid #ffcc80;border-radius:8px;padding:13px 16px;font-size:13px;color:#5d4037;line-height:1.7;margin:12px 0}
 .info-box strong{color:#bf360c}
 
+/* ── SPLICE DIAGRAM ── */
+.splice-diagram{background:#1a1a2e;border-radius:10px;padding:22px 24px;margin:16px 0;overflow-x:auto}
+.sd-row{display:flex;align-items:flex-start;gap:0;min-width:max-content}
+.sd-exon{background:rgba(206,147,216,.12);color:#ce93d8;border:1.5px solid #ce93d8;border-radius:6px;padding:5px 12px;font-family:ui-monospace,monospace;font-weight:700;font-size:12.5px;white-space:nowrap;margin-top:2px;align-self:flex-start}
+.sd-hline{height:2px;width:22px;background:#3a3a5c;margin-top:14px;flex-shrink:0;align-self:flex-start}
+.sd-intron{color:#3a3a5c;font-family:ui-monospace,monospace;font-size:13px;padding:0 10px;align-self:flex-start;margin-top:8px;letter-spacing:3px;flex-shrink:0}
+.sd-site{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.sd-motif{border:2px solid;border-radius:6px;padding:5px 13px;font-family:ui-monospace,monospace;font-size:13px;font-weight:700;background:#1a1a2e;white-space:nowrap;line-height:1.4}
+.sd-vline{width:0;border-left:2px dashed;margin:5px auto;height:24px;flex-shrink:0}
+.sd-name{font-size:11.5px;font-weight:700;color:#c8d0dc;text-align:center;line-height:1.3}
+.sd-factor{font-size:10.5px;color:#6a7a8c;text-align:center;font-style:italic;margin-top:2px}
+
 /* ── REFS ── */
 .refs{margin-top:28px;padding-top:20px;border-top:2px solid var(--line)}
 .refs-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:12px}
@@ -164,11 +176,40 @@ tr:hover td{background:var(--soft)}
         </div>
       </div>
 
-      <div class="seq-box">
-<span class="label">5'──────────────────────────────────────────3'</span>
-<span class="exon">EXON 1</span> <span class="gu">GU</span>AAGU···<span class="bp">YNYURAY</span>···UUUUUU···Y<span class="ag">AG</span> <span class="exon">EXON 2</span>
-<span class="label">        └─ 5'SS  BP(분지점)  PPT       3'SS ─┘</span>
-<span class="label">        U1 snRNA  U2 snRNA   U2AF65   U2AF35</span>
+      <div class="splice-diagram">
+        <div class="sd-row">
+          <div class="sd-exon">EXON 1</div>
+          <div class="sd-hline"></div>
+          <div class="sd-site">
+            <div class="sd-motif" style="border-color:#ff9800;color:#ff9800">MAG|GU·RAGU</div>
+            <div class="sd-vline" style="border-color:#ff9800"></div>
+            <div class="sd-name">5′ Splice Site</div>
+            <div class="sd-factor">U1 snRNA</div>
+          </div>
+          <div class="sd-intron">· · · · · · · ·</div>
+          <div class="sd-site">
+            <div class="sd-motif" style="border-color:#64b5f6;color:#64b5f6">YNYURAY</div>
+            <div class="sd-vline" style="border-color:#64b5f6"></div>
+            <div class="sd-name">Branch Point (BP)</div>
+            <div class="sd-factor">U2 snRNA</div>
+          </div>
+          <div class="sd-intron">· · · · ·</div>
+          <div class="sd-site">
+            <div class="sd-motif" style="border-color:#90a4ae;color:#b0bec5">UUUUUUCC</div>
+            <div class="sd-vline" style="border-color:#90a4ae"></div>
+            <div class="sd-name">폴리피리미딘 트랙</div>
+            <div class="sd-factor">U2AF65</div>
+          </div>
+          <div class="sd-intron">· · · ·</div>
+          <div class="sd-site">
+            <div class="sd-motif" style="border-color:#4caf50;color:#4caf50">Y·AG|</div>
+            <div class="sd-vline" style="border-color:#4caf50"></div>
+            <div class="sd-name">3′ Splice Site</div>
+            <div class="sd-factor">U2AF35</div>
+          </div>
+          <div class="sd-hline"></div>
+          <div class="sd-exon">EXON 2</div>
+        </div>
       </div>
 
       <div class="info-box">
