@@ -167,7 +167,7 @@ tr:hover td{background:var(--soft)}
         <div class="stat-card"><span class="val">~20,000</span><div class="lbl">인간 단백질 코딩 유전자</div></div>
         <div class="stat-card"><span class="val">~100,000+</span><div class="lbl">추정 mRNA isoform</div></div>
         <div class="stat-card"><span class="val">95%</span><div class="lbl">AS를 거치는 다중엑손 유전자</div></div>
-        <div class="stat-card"><span class="val">36,016</span><div class="lbl">DSCAM isoform (초파리)</div></div>
+        <div class="stat-card"><span class="val">38,016</span><div class="lbl">DSCAM isoform (초파리)</div></div>
       </div>
 
       <table style="margin-top:16px">
@@ -213,7 +213,7 @@ tr:hover td{background:var(--soft)}
           <tr>
             <td><strong>TP63</strong></td>
             <td>≥6개</td>
-            <td>Alt promoter + alt 3' end + IS</td>
+            <td>Alt promoter + alt 3' end + AS</td>
             <td>ΔN vs TA isoform: 발달 vs 종양억제 기능</td>
           </tr>
         </tbody>
@@ -384,7 +384,7 @@ tr:hover td{background:var(--soft)}
               </div>
               <div class="card-sm" style="margin-bottom:10px">
                 <h4>NMD Rescue 치료 전략</h4>
-                <p>NMD를 억제하는 아미노글리코사이드(gentamicin) 또는 ataluren으로 PTC를 readthrough. 스플라이싱 교정 ASO와 병용 시 효과 증폭 가능.</p>
+                <p>아미노글리코사이드(gentamicin) 또는 ataluren으로 PTC readthrough 유도 (NMD 경로 억제가 아닌 리보솜의 PTC 통과 촉진). 스플라이싱 교정 ASO와 병용 시 효과 증폭 가능.</p>
               </div>
               <div class="card-sm">
                 <h4>Cryptic Exon과 NMD</h4>
@@ -435,7 +435,7 @@ const asData = {
       "ESE(Exonic Splicing Enhancer) 변이가 엑손 스킵의 주요 원인",
       "exon 내 변이가 ESE를 파괴하거나 ESS를 만들면 → 스킵 유발",
       "예: DMD exon 51 skipping (antisense oligonucleotide 치료 대상)",
-      "예: SMN2 exon 7 skipping → SMA (SRSF1 결합 약화)"
+      "예: SMN2 exon 7 skipping → SMA (exon 7 c.840C>T: SRSF1 ESE 파괴 + hnRNP A1/A2 ESS 생성)"
     ],
     diagrams: [
       { label: "Constitutive (전체 포함)", exons: ["E1","E2","E3"], type: "full" },
